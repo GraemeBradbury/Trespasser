@@ -1,49 +1,46 @@
-﻿using NUnit.Framework;
-using Trespasser.Test.Classes;
-
-namespace Trespasser.Test
+﻿namespace Trespasser.Test
 {
-    [TestFixture]
+    using SubSpec;
+    using Trespasser.Test.Classes;
+    using Xunit;
+
     public class ProxyOfTTest
     {
-        [Test]
-        public void TestPrivateStaticMethod()
+        [Specification]
+        public void TestingStaticClasses()
         {
-            var proxy = Proxy.Static<ClassUnderTest>();
-            proxy.StaticMethod();
-            Assert.Pass();
-        }
+            dynamic proxy = null;
+            "Given a proxy of a static class"
+                .Context(() => { proxy = Proxy.Static<ClassUnderTest>(); });
 
-        [Test]
-        public void TestGetPrivateStaticProperty()
-        {
-            var proxy = Proxy.Static<ClassUnderTest>();
-            int n = proxy.StaticProperty;
-            Assert.Pass();
-        }
+            "".Do(() => { });
 
-        [Test]
-        public void TestSetPrivateStaticProperty()
-        {
-            var proxy = Proxy.Static<ClassUnderTest>();
-            proxy.StaticProperty = 1;
-            Assert.AreEqual(1, proxy.StaticProperty);
-        }
+            "Then a static method can be called".
+                Assert(() =>
+                       {
+                           proxy.StaticMethod();
+                           Assert.True(true);
+                       });
 
-        [Test]
-        public void TestGetPrivateField()
-        {
-            var proxy = Proxy.Static<ClassUnderTest>();
-            int n = proxy._staticField;
-            Assert.Pass();
-        }
+            "Then a static property can be called"
+                .Assert(() => Assert.Equal(0, proxy.StaticProperty));
 
-        [Test]
-        public void TestSetPrivateField()
-        {
-            var proxy = Proxy.Static<ClassUnderTest>();
-            proxy._staticField = 1;
-            Assert.AreEqual(1, proxy._staticField);
+            "Then a static property can be set"
+                .Assert(() =>
+                        {
+                            proxy.StaticProperty = 1;
+                            Assert.Equal(1, proxy.StaticProperty);
+                        });
+
+            "Then a get can be performed on a field"
+                .Assert(() => Assert.Equal(0, proxy._staticField));
+
+            "Then a set can be performed on a field"
+                .Assert(() =>
+                        {
+                            proxy._staticField = 1;
+                            Assert.Equal(1, proxy._staticField);
+                        });
         }
     }
 }

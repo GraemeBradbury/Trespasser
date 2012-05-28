@@ -1,161 +1,123 @@
-﻿using NUnit.Framework;
-using Trespasser.Test.Classes;
-
-namespace Trespasser.Test
+﻿namespace Trespasser.Test
 {
-    [TestFixture]
+    using SubSpec;
+    using Trespasser.Test.Classes;
+    using Xunit;
+
     public class ProxyTest
     {
-        [Test]
-        public void TestPrivateInstanceMethod()
+        [Specification]
+        public void TestingProxy()
         {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.PrivateMethod();
-            Assert.Pass();
-        }
+            dynamic proxy = null;
+            "Given a proxy of a static class"
+                .Context(() =>
+                         {
+                             proxy = Proxy.Create(new ClassUnderTest());
+                         });
 
-        [Test]
-        public void TestGetPrivateProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.PrivateProperty;
-            Assert.Pass();
-        }
+            "".Do(() => { });
 
-        [Test]
-        public void TestSetPrivateProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.PrivateProperty = 1;
-            Assert.AreEqual(1, proxy.PrivateProperty);
-        }
+            "Then a private method can be called"
+                .Assert(() =>
+                        {
+                            proxy.PrivateMethod();
+                            Assert.True(true);
+                        });
 
-        [Test]
-        public void TestGetBadlyNamedProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.badlyNamedProperty;
-            Assert.Pass();
-        }
+            "Then a protected method can be called"
+                .Assert(() =>
+                        {
+                            proxy.ProtectedMethod();
+                            Assert.True(true);
+                        });
 
-        [Test]
-        public void TestSetBadlyNamedProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.badlyNamedProperty = 1;
-            Assert.AreEqual(1, proxy.badlyNamedProperty);
-        }
+            "Then an internal method can be called"
+                .Assert(() =>
+                        {
+                            proxy.InternalMethod();
+                            Assert.True(true);
+                        });
 
-        [Test]
-        public void TestGetPrivateField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy._privateField;
-            Assert.Pass();
-        }
+            "Then a get can be performed on a private property"
+                .Observation(() => Assert.Equal(0, proxy.PrivateProperty));
 
-        [Test]
-        public void TestSetPrivateField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy._privateField = 1;
-            Assert.AreEqual(1, proxy._privateField);
-        }
+            "Then a set can be performed on a private property"
+                .Assert(() =>
+                        {
+                            proxy.PrivateProperty = 1;
+                            Assert.Equal(1, proxy.PrivateProperty);
+                        });
 
-        [Test]
-        public void TestGetBadlyNamedField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.BadlyNamedField;
-            Assert.Pass();
-        }
+            "Then a get can be performed on a badly named property"
+                .Observation(() => Assert.Equal(0, proxy.badlyNamedProperty));
 
-        [Test]
-        public void TestSetBadlyNamedField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.BadlyNamedField = 1;
-            Assert.AreEqual(1, proxy.BadlyNamedField);
-        }
+            "Then a set can be performed on a badly named property"
+                .Assert(() =>
+                        {
+                            proxy.badlyNamedProperty = 1;
+                            Assert.Equal(1, proxy.badlyNamedProperty);
+                        });
 
-        [Test]
-        public void TestProtectedInstanceMethod()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.ProtectedMethod();
-            Assert.Pass();
-        }
+            "Then a get can be performed on a protected property"
+                .Observation(() => Assert.Equal(0, proxy.ProtectedProperty));
 
-        [Test]
-        public void TestGetProtectedProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.ProtectedProperty;
-            Assert.Pass();
-        }
+            "Then a set can be performed on a protected property"
+                .Assert(() =>
+                        {
+                            proxy.ProtectedProperty = 1;
+                            Assert.Equal(1, proxy.ProtectedProperty);
+                        });
 
-        [Test]
-        public void TestSetProtectedProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.ProtectedProperty = 1;
-            Assert.AreEqual(1, proxy.ProtectedProperty);
-        }
+            "Then a get can be performed on a internal property"
+                .Observation(() => Assert.Equal(0, proxy.InternalProperty));
 
-        [Test]
-        public void TestGetProtectedField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.ProtectedField;
-            Assert.Pass();
-        }
+            "Then a set can be performed on a internal property"
+                .Assert(() =>
+                        {
+                            proxy.InternalProperty = 1;
+                            Assert.Equal(1, proxy.InternalProperty);
+                        });
 
-        [Test]
-        public void TestSetProtectedField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.ProtectedField = 1;
-            Assert.AreEqual(1, proxy.ProtectedField);
-        }
+            "Then a get can be performed on a private field"
+                .Observation(() => Assert.Equal(0, proxy._privateField));
 
-        [Test]
-        public void TestInternalInstanceMethod()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.InternalMethod();
-            Assert.Pass();
-        }
+            "Then a set can be performed on a private field"
+                .Assert(() =>
+                        {
+                            proxy._privateField = 1;
+                            Assert.Equal(1, proxy._privateField);
+                        });
 
-        [Test]
-        public void TestGetInternalProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.InternalProperty;
-            Assert.Pass();
-        }
+            "Then a get can be performed on a protected field"
+                .Observation(() => Assert.Equal(0, proxy.ProtectedField));
 
-        [Test]
-        public void TestSetInternalProperty()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.InternalProperty = 1;
-            Assert.AreEqual(1, proxy.InternalProperty);
-        }
+            "Then a set can be performed on a protected field"
+                .Assert(() =>
+                        {
+                            proxy.ProtectedField = 1;
+                            Assert.Equal(1, proxy.ProtectedField);
+                        });
 
-        [Test]
-        public void TestGetInternalField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            int n = proxy.InternalField;
-            Assert.Pass();
-        }
+            "Then a get can be performed on a badly named field"
+                .Observation(() => Assert.Equal(0, proxy.BadlyNamedField));
 
-        [Test]
-        public void TestSetInternalField()
-        {
-            var proxy = Proxy.Create(new ClassUnderTest());
-            proxy.InternalField = 1;
-            Assert.AreEqual(1, proxy.InternalField);
+            "Then a set can be performed on a badly named field"
+                .Assert(() =>
+                        {
+                            proxy.BadlyNamedField = 1;
+                            Assert.Equal(1, proxy.BadlyNamedField);
+                        });
+
+            "Then a get can be performed on a internal field"
+                .Observation(() => Assert.Equal(0, proxy.InternalField));
+
+            "Then a set can be performed on a internal field"
+                .Assert(() =>
+                        {
+                            proxy.InternalField = 1;
+                            Assert.Equal(1, proxy.InternalField);
+                        });
         }
     }
 }

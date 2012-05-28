@@ -12,3 +12,6 @@ deploy
 TestResults/*
 *.dbmdl
 Releases/2*
+
+*.dll
+*.ncrunch*
