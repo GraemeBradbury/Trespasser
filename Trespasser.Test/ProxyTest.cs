@@ -1,258 +1,322 @@
 ﻿namespace Trespasser.Test
 {
-    using SubSpec;
     using Trespasser.Test.Classes;
+    using Xbehave;
     using Xunit;
 
     public class ProxyTest
     {
-        [Specification]
+        [Scenario]
         public void TestingProxy()
         {
             dynamic proxy = null;
             "Given a proxy of a class"
-                .Context(() => { proxy = Proxy.Create(new ClassUnderTest()); });
+                .x(() => { proxy = Proxy.Create(new ClassUnderTest()); });
 
-            "".Do(() => { });
-
-            "Then a private method can be called"
-                .Assert(() =>
-                        {
-                            proxy.PrivateMethod();
-                            Assert.True(true);
-                        });
-
-            "Then a protected method can be called"
-                .Assert(() =>
-                        {
-                            proxy.ProtectedMethod();
-                            Assert.True(true);
-                        });
-
-            "Then an internal method can be called"
-                .Assert(() =>
-                        {
-                            proxy.InternalMethod();
-                            Assert.True(true);
-                        });
-
-            "Then a get can be performed on a private property"
-                .Observation(() => Assert.Equal(0, proxy.PrivateProperty));
-
-            "Then a set can be performed on a private property"
-                .Assert(() =>
-                        {
-                            proxy.PrivateProperty = 1;
-                            Assert.Equal(1, proxy.PrivateProperty);
-                        });
-
-            "Then a get can be performed on a badly named property"
-                .Observation(() => Assert.Equal(0, proxy.badlyNamedProperty));
-
-            "Then a set can be performed on a badly named property"
-                .Assert(() =>
-                        {
-                            proxy.badlyNamedProperty = 1;
-                            Assert.Equal(1, proxy.badlyNamedProperty);
-                        });
-
-            "Then a get can be performed on a protected property"
-                .Observation(() => Assert.Equal(0, proxy.ProtectedProperty));
-
-            "Then a set can be performed on a protected property"
-                .Assert(() =>
-                        {
-                            proxy.ProtectedProperty = 1;
-                            Assert.Equal(1, proxy.ProtectedProperty);
-                        });
-
-            "Then a get can be performed on a internal property"
-                .Observation(() => Assert.Equal(0, proxy.InternalProperty));
-
-            "Then a set can be performed on a internal property"
-                .Assert(() =>
-                        {
-                            proxy.InternalProperty = 1;
-                            Assert.Equal(1, proxy.InternalProperty);
-                        });
-
-            "Then a get can be performed on a private field"
-                .Observation(() => Assert.Equal(0, proxy._privateField));
-
-            "Then a set can be performed on a private field"
-                .Assert(() =>
-                        {
-                            proxy._privateField = 1;
-                            Assert.Equal(1, proxy._privateField);
-                        });
-
-            "Then a get can be performed on a protected field"
-                .Observation(() => Assert.Equal(0, proxy.ProtectedField));
-
-            "Then a set can be performed on a protected field"
-                .Assert(() =>
-                        {
-                            proxy.ProtectedField = 1;
-                            Assert.Equal(1, proxy.ProtectedField);
-                        });
-
-            "Then a get can be performed on a badly named field"
-                .Observation(() => Assert.Equal(0, proxy.BadlyNamedField));
-
-            "Then a set can be performed on a badly named field"
-                .Assert(() =>
-                        {
-                            proxy.BadlyNamedField = 1;
-                            Assert.Equal(1, proxy.BadlyNamedField);
-                        });
-
-            "Then a get can be performed on a internal field"
-                .Observation(() => Assert.Equal(0, proxy.InternalField));
-
-            "Then a set can be performed on a internal field"
-                .Assert(() =>
-                        {
-                            proxy.InternalField = 1;
-                            Assert.Equal(1, proxy.InternalField);
-                        });
-        }
-
-        [Specification]
-        public void TestingMethodsWithParameters()
-        {
-            dynamic proxy = null;
-            ClassWithManyMethods classWithManyMethods = null;
-
-            "Given a proxy of a class"
-                .Context(() =>
-                         {
-                             classWithManyMethods = new ClassWithManyMethods();
-                             proxy = Proxy.Create(classWithManyMethods);
-                         });
-
-            "".Do(() => { });
-
-            "Then calling a method with a null param uses the override with a reference parameter"
-                .Observation(() =>
-                             {
-                                 proxy.SomeMethod(null);
-
-                                 Assert.False(classWithManyMethods.MethodWithSingleValueParameterCalled);
-                                 Assert.True(classWithManyMethods.MethodWithSingleReferenceParameterCalled);
-                             });
-        }
-
-        [Specification]
-        public void TestingDerivedClasses()
-        {
-            dynamic proxy = null;
-            DerivedClassUnderTest classWithManyMethods = null;
-
-            "Given a proxy of a derived class"
-                .Context(() =>
-                         {
-                             classWithManyMethods = new DerivedClassUnderTest();
-                             proxy = Proxy.Create(classWithManyMethods);
-                         });
-
-            "".Do(() => { });
+            "".x(() => { });
 
             "Then a private method can be called"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.PrivateMethod();
                     Assert.True(true);
                 });
 
             "Then a protected method can be called"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.ProtectedMethod();
                     Assert.True(true);
                 });
 
             "Then an internal method can be called"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.InternalMethod();
                     Assert.True(true);
                 });
 
             "Then a get can be performed on a private property"
-                .Observation(() => Assert.Equal(0, proxy.PrivateProperty));
+                .x(() =>
+                {
+                    var @value = proxy.PrivateProperty;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a private property"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.PrivateProperty = 1;
                     Assert.Equal(1, proxy.PrivateProperty);
                 });
 
             "Then a get can be performed on a badly named property"
-                .Observation(() => Assert.Equal(0, proxy.badlyNamedProperty));
+                .x(() =>
+                {
+                    var @value = proxy.badlyNamedProperty;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a badly named property"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.badlyNamedProperty = 1;
                     Assert.Equal(1, proxy.badlyNamedProperty);
                 });
 
             "Then a get can be performed on a protected property"
-                .Observation(() => Assert.Equal(0, proxy.ProtectedProperty));
+                .x(() =>
+                {
+                    var @value = proxy.ProtectedProperty;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a protected property"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.ProtectedProperty = 1;
                     Assert.Equal(1, proxy.ProtectedProperty);
                 });
 
             "Then a get can be performed on a internal property"
-                .Observation(() => Assert.Equal(0, proxy.InternalProperty));
+                .x(() =>
+                {
+                    var @value = proxy.InternalProperty;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a internal property"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.InternalProperty = 1;
                     Assert.Equal(1, proxy.InternalProperty);
                 });
 
             "Then a get can be performed on a private field"
-                .Observation(() => Assert.Equal(0, proxy._privateField));
+                .x(() =>
+                {
+                    var @value = proxy._privateField;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a private field"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy._privateField = 1;
                     Assert.Equal(1, proxy._privateField);
                 });
 
             "Then a get can be performed on a protected field"
-                .Observation(() => Assert.Equal(0, proxy.ProtectedField));
+                .x(() =>
+                {
+                    var @value = proxy.ProtectedField;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a protected field"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.ProtectedField = 1;
                     Assert.Equal(1, proxy.ProtectedField);
                 });
 
             "Then a get can be performed on a badly named field"
-                .Observation(() => Assert.Equal(0, proxy.BadlyNamedField));
+                .x(() =>
+                {
+                    var @value = proxy.BadlyNamedField;
+                    Assert.Equal(0, @value);
+                });
 
             "Then a set can be performed on a badly named field"
-                .Assert(() =>
+                .x(() =>
                 {
                     proxy.BadlyNamedField = 1;
                     Assert.Equal(1, proxy.BadlyNamedField);
                 });
 
             "Then a get can be performed on a internal field"
-                .Observation(() => Assert.Equal(0, proxy.InternalField));
+                .x(() =>
+                {
+                    var @value = proxy.BadlyNamedField;
+                    Assert.Equal(0, proxy.InternalField);
+                });
 
             "Then a set can be performed on a internal field"
-                .Assert(() =>
+                .x(() =>
+                {
+                    proxy.InternalField = 1;
+                    Assert.Equal(1, proxy.InternalField);
+                });
+        }
+
+        [Scenario]
+        public void TestingMethodsWithParameters()
+        {
+            dynamic proxy = null;
+            ClassWithManyMethods classWithManyMethods = null;
+
+            "Given a proxy of a class"
+                .x(() =>
+                {
+                    classWithManyMethods = new ClassWithManyMethods();
+                    proxy = Proxy.Create(classWithManyMethods);
+                });
+
+            "".x(() => { });
+
+            "Then calling a method with a null param uses the override with a reference parameter"
+                .x(() =>
+                {
+                    proxy.SomeMethod(null);
+
+                    Assert.False(classWithManyMethods.MethodWithSingleValueParameterCalled);
+                    Assert.True(classWithManyMethods.MethodWithSingleReferenceParameterCalled);
+                });
+        }
+
+        [Scenario]
+        public void TestingDerivedClasses()
+        {
+            dynamic proxy = null;
+            DerivedClassUnderTest classWithManyMethods = null;
+
+            "Given a proxy of a derived class"
+                .x(() =>
+                {
+                    classWithManyMethods = new DerivedClassUnderTest();
+                    proxy = Proxy.Create(classWithManyMethods);
+                });
+
+            "".x(() => { });
+
+            "Then a private method can be called"
+                .x(() =>
+                {
+                    proxy.PrivateMethod();
+                    Assert.True(true);
+                });
+
+            "Then a protected method can be called"
+                .x(() =>
+                {
+                    proxy.ProtectedMethod();
+                    Assert.True(true);
+                });
+
+            "Then an internal method can be called"
+                .x(() =>
+                {
+                    proxy.InternalMethod();
+                    Assert.True(true);
+                });
+
+            "Then a get can be performed on a private property"
+                .x(() =>
+                {
+                    var @value = proxy.PrivateProperty;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a private property"
+            .x(() =>
+                {
+                    proxy.PrivateProperty = 1;
+                    Assert.Equal(1, proxy.PrivateProperty);
+                });
+
+            "Then a get can be performed on a badly named property"
+                .x(() =>
+                {
+                    var @value = proxy.badlyNamedProperty;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a badly named property"
+                .x(() =>
+                {
+                    proxy.badlyNamedProperty = 1;
+                    Assert.Equal(1, proxy.badlyNamedProperty);
+                });
+
+            "Then a get can be performed on a protected property"
+                .x(() =>
+                {
+                    var @value = proxy.ProtectedProperty;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a protected property"
+                .x(() =>
+                {
+                    proxy.ProtectedProperty = 1;
+                    Assert.Equal(1, proxy.ProtectedProperty);
+                });
+
+            "Then a get can be performed on a internal property"
+                .x(() =>
+                {
+                    var @value = proxy.InternalProperty;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a internal property"
+                .x(() =>
+                {
+                    proxy.InternalProperty = 1;
+                    Assert.Equal(1, proxy.InternalProperty);
+                });
+
+            "Then a get can be performed on a private field"
+                .x(() =>
+                {
+                    var @value = proxy._privateField;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a private field"
+                .x(() =>
+                {
+                    proxy._privateField = 1;
+                    Assert.Equal(1, proxy._privateField);
+                });
+
+            "Then a get can be performed on a protected field"
+                .x(() =>
+                {
+                    var @value = proxy.ProtectedField;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a protected field"
+                .x(() =>
+                {
+                    proxy.ProtectedField = 1;
+                    Assert.Equal(1, proxy.ProtectedField);
+                });
+
+            "Then a get can be performed on a badly named field"
+                .x(() =>
+                {
+                    var @value = proxy.BadlyNamedField;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a badly named field"
+                .x(() =>
+                {
+                    proxy.BadlyNamedField = 1;
+                    Assert.Equal(1, proxy.BadlyNamedField);
+                });
+
+            "Then a get can be performed on a internal field"
+                .x(() =>
+                {
+                    var @value = proxy.InternalField;
+                    Assert.Equal(0, @value);
+                });
+
+            "Then a set can be performed on a internal field"
+                .x(() =>
                 {
                     proxy.InternalField = 1;
                     Assert.Equal(1, proxy.InternalField);
@@ -260,23 +324,23 @@
         }
 
 
-        [Specification]
+        [Scenario]
         public void TestingDerivedClassMethodsWithParameters()
         {
             dynamic proxy = null;
             DerivedClassUnderTest classWithManyMethods = null;
 
             "Given a proxy of a class"
-                .Context(() =>
+                .x(() =>
                 {
                     classWithManyMethods = new DerivedClassUnderTest();
                     proxy = Proxy.Create(classWithManyMethods);
                 });
 
-            "".Do(() => { });
+            "".x(() => { });
 
             "Then calling a method with a null param uses the override with a reference parameter"
-                .Observation(() =>
+                .x(() =>
                 {
                     proxy.SomeMethod(null);
 

@@ -15,3 +15,5 @@ Releases/2*
 
 *.dll
 *.ncrunch*
+
+.vs
